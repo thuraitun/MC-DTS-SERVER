@@ -1,9 +1,9 @@
-import {Router} from 'express';
+import { Router } from 'express';
+const appointmentRoute = Router();
 
-const appointmentRouter = Router();
+appointmentRoute
+      .route('/')
+      .get()
+      .post()
 
-appointmentRouter
-    .route()
-
-
-export default appointmentRouter;
+export default appointmentRoute;
