@@ -13,4 +13,4 @@ class ApiError extends Error {
             return new ApiError(message,404)
       }
 };
-module.exports = ApiError;
+export default ApiError;
