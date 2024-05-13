@@ -5,10 +5,11 @@ const doctorSchema = new mongoose.Schema({
         type: "string",
         required: true
     },
+
     specialist: {
         type: "string",
         required: true
-    },
+    },   
     email: {
         type: "string",
         required: true,
