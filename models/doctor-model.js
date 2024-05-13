@@ -22,6 +22,10 @@ const doctorSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    gender: {
+        type: String,
+        required: true
+    },
     slot: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Slot",
