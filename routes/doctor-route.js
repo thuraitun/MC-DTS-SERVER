@@ -3,6 +3,7 @@ import validate from '../middlewares/validate.js';
 import { CREATE_DOCTOR, UPDATE_DOCTOR } from '../schema/doctor-schema.js';
 const doctorRoute = Router();
 import { getAllDoctors, getOneDoctor, updateDoctor, deleteDoctor, createDoctor } from './../controllers/doctor-controller.js';
+import { createSlot, getAllSlots } from '../controllers/slot-controller.js';
 
 doctorRoute
       .route('/')

@@ -8,7 +8,7 @@ appointmentRoute
       .post(createAppointment)
 
 appointmentRoute
-      .route('/:id')
+      .route('/:oppointmentId')
       .patch(updateAppointment)
       .delete(deleteAppointment)
 
