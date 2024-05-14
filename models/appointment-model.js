@@ -22,7 +22,7 @@ const appointmentSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true
-    }
+    },
 });
 
 export const Appointment = mongoose.model('Appointment', appointmentSchema);

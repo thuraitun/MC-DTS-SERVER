@@ -7,7 +7,7 @@ slotRoute
       .get(getAllSlots)
       .post(createSlot)
 slotRoute
-      .route('/:id')
+      .route('/:slotId')
       .patch(updateSlot)
       .delete(deleteSlot)
 
