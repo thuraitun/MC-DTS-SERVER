@@ -7,18 +7,24 @@ export const getAllSlotsService = async (query) => {
 
   const slots = await Promise.all([
     Slot.find(filter).sort(sort).skip(skip).limit(limit),
-    // Slot.count(filter),
   ]);
 
   if (!Object.keys(slots).length) {
-    return ApiError.notFound("Not Found Page!");
+    throw ApiError.notFound("Slots are not available");
   }
   return slots;
 };
 
+export const getSlotService = async (slotId) => {
+  const slot = await Slot.findById(slotId);
+
+  if (!slot) {
+    throw ApiError.notFound("Slot is not available");
+  }
+  return slot;
+};
+
 export const createSlotService = async (body) => {
-  // const { start_date, end_date } = data;
-  console.log(body);
   const createdSlot = await Slot.create(body);
   return createdSlot;
 };
