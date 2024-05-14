@@ -4,13 +4,13 @@ class ApiError extends Error {
             this.statusCode = statusCode;
             this.data = data;
 
-            Error.captureStackTrace(this,this.constructor)
+            Error.captureStackTrace(this, this.constructor)
       }
       static badRequest(message = 'Invalid Request', data = null) {
             return new ApiError(message, 400, data);
       }
-      static notFound(message = 'Invalid Endpoint') {
-            return new ApiError(message,404)
+      static notFound(message = 'Invalid Endpoint', data) {
+            return new ApiError(message, 404, data)
       }
 };
 export default ApiError;

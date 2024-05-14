@@ -10,11 +10,11 @@ const appointmentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    phone_no: {
-        type: Number,
+    phone_number: {
+        type: String,
         required: true
     },
-    slot : {
+    slot: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Slot',
         required: true

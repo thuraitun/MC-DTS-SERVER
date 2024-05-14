@@ -3,3 +3,4 @@ export default cb => {
             cb(req, res, next).catch(next);
       }
 };
+
