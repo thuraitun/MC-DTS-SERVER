@@ -18,7 +18,6 @@ export const getOneDoctorService = async (id) => {
 };
 
 export const createDoctorService = async (body) => {
-      const { name, email, specialist, experience } = body;
       const doctor = await Doctor.create(body);
       return doctor;
 };

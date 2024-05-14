@@ -14,12 +14,12 @@ const doctorSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    experience: {
+    experiences: {
         type: String,
         required: true
     },
     fee: {
-        type: Number,
+        type: String,
         required: true
     },
     gender: {

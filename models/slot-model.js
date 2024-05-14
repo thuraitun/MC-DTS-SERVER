@@ -1,22 +1,19 @@
 import mongoose from "mongoose";
 
 const slotSchema = new mongoose.Schema({
-      time: [
-            {
-                  timeSlot: {
-                        type: String,
-                        required: true
-                  }
-            }
-      ],
-      day: {
+      start_date: {
             type: String,
-            required: true
+            required: true,
       },
-      date: {
+      end_date: {
             type: String,
-            required: true
-      }
+            required: true,
+      },
+      doctor: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Doctor",
+            required: true,
+      },
 });
 
-export const Slot = mongoose.model('Slot', slotSchema);
+export const Slot = mongoose.model("Slot", slotSchema);
