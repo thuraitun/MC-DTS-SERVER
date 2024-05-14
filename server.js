@@ -5,6 +5,21 @@ const port = process.env.PORT || 3000;
 dotenv.config({ path: "./.env" })
 
 import app from "./app.js";
+import ApiError from "./utils/apiError.js";
+
+app.use((err, req, res, next) => {
+  if (err instanceof ApiError) {
+    res.status(err.statusCode).json({
+      status: "Fail",
+      message: err.message
+    })
+  } else {
+    res.status(500).json({
+      status: "Fail",
+      message: 'Internal server error'
+    })
+  }
+});
 
 async function connectToDatabase() {
   const DB = process.env.DATABASE.replace(
