@@ -1,18 +1,18 @@
 import { Router } from "express";
 const slotRoute = Router();
 import {
-  createSlot,
-  deleteSlot,
-  getAllSlots,
+  createSlotHandler,
+  deleteSlotHandler,
+  getAllSlotsHandler,
   getSlotHandler,
-  updateSlot,
+  updateSlotHandler,
 } from "../controllers/slot-controller.js";
 
-slotRoute.route("/").get(getAllSlots).post(createSlot);
+slotRoute.route("/").get(getAllSlotsHandler).post(createSlotHandler);
 slotRoute
   .route("/:slotId")
   .get(getSlotHandler)
-  .patch(updateSlot)
-  .delete(deleteSlot);
+  .patch(updateSlotHandler)
+  .delete(deleteSlotHandler);
 
 export default slotRoute;
