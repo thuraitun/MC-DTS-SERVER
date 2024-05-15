@@ -23,29 +23,16 @@ export const getSlotService = async (slotId) => {
   return slot;
 };
 
-// export const createSlotService = async (body) => {
-//   const { start_date, end_date, doctor } = body;
-
-//   const isExistingSot = await Slot.findOne({ start_date, end_date, doctor });
-
-//   if (isExistingSot) throw ApiError.badRequest("Sot is already exists");
-
-//   const createdSlot = await Slot.create(body);
-
-//   return createdSlot;
-// };
-
 export const createSlotService = async (body) => {
   const { start_date, end_date, doctor } = body;
 
-  // Check if there's any existing slot that overlaps with the new slot
   const existingSlots = await Slot.find({
     doctor,
     $or: [
-      { start_date: { $lte: start_date }, end_date: { $gte: start_date } }, 
-      { start_date: { $lte: end_date }, end_date: { $gte: end_date } }, 
-      { start_date: { $gte: start_date }, end_date: { $lte: end_date } }
-    ]
+      { start_date: { $lte: start_date }, end_date: { $gte: start_date } },
+      { start_date: { $lte: end_date }, end_date: { $gte: end_date } },
+      { start_date: { $gte: start_date }, end_date: { $lte: end_date } },
+    ],
   });
 
   if (existingSlots.length > 0) {
@@ -57,21 +44,36 @@ export const createSlotService = async (body) => {
   return createdSlot;
 };
 
-
-export const updateSlotService = async (slotId, body) => {
+export const updateSlotService = async (slotId, updateData) => {
   if (!slotId) throw ApiError.notFound();
-  
-  const { start_date, end_date, doctor } = body;
-  
-  const isExistingSlot = await Slot.findOne({ start_date, end_date, doctor });
-  console.log("service", isExistingSlot);
 
-  if (isExistingSlot) throw ApiError.badRequest("Sot is already exists");
+  const { start_date, end_date, doctor } = updateData;
 
-  const updatedSlot = await Slot.findByIdAndUpdate({ _id: slotId, body });
+  const existingSlots = await Slot.find({
+    doctor,
+    $or: [
+      { start_date: { $lte: start_date }, end_date: { $gte: start_date } },
+      { start_date: { $lte: end_date }, end_date: { $gte: end_date } },
+      { start_date: { $gte: start_date }, end_date: { $lte: end_date } },
+    ],
+  });
 
-  console.log("Service updated", updatedSlot);
-  if (!updatedSlot) throw ApiError.notFound("Updated is not available");
+  const filteredSlots = existingSlots.filter(
+    (slot) => String(slot._id) !== slotId
+  );
+
+  if (filteredSlots.length > 0) {
+    throw ApiError.badRequest("Slot overlaps with existing slots");
+  }
+
+  const updatedSlot = await Slot.findByIdAndUpdate(slotId, updateData, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!updatedSlot) {
+    throw ApiError.notFound("Updated slot is not available");
+  }
 
   return updatedSlot;
 };
