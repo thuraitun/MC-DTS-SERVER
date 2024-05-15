@@ -2,7 +2,7 @@ import { createDoctorService, deleteDoctorService, getAllDoctorService, getOneDo
 import catchAsync from "../utils/catchAsync.js";
 
 export const getAllDoctors = catchAsync(async (req, res) => {
-      const doctors = await getAllDoctorService();
+      const doctors = await getAllDoctorService(req.query);
       res.status(200).json({
             status: "success",
             data: doctors

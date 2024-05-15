@@ -9,7 +9,6 @@ export const getAllSlotsService = async (query) => {
     Slot.find(filter).sort(sort).skip(skip).limit(limit),
     // Slot.count(filter),
   ]);
-
   if (!Object.keys(slots).length) {
     return ApiError.notFound("Not Found Page!");
   }
