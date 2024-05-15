@@ -3,7 +3,7 @@ import z from "zod";
 const BASIC_SLOT = z.object({
   body: z.object({
     start_date: z.string().datetime(),
-    end_data: z.string().datetime(),
+    end_date: z.string().datetime(),
     doctor: z.string().min(20, "this id is not a valid"),
   }),
 });
