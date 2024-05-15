@@ -1,5 +1,6 @@
 import { Router } from "express";
 const slotRoute = Router();
+import validate from "../middlewares/validate.js";
 import {
   createSlotHandler,
   deleteSlotHandler,
@@ -7,8 +8,12 @@ import {
   getSlotHandler,
   updateSlotHandler,
 } from "../controllers/slot-controller.js";
+import { CREATE_SLOT } from "../schema/slot-schema.js";
 
-slotRoute.route("/").get(getAllSlotsHandler).post(createSlotHandler);
+slotRoute
+  .route("/")
+  .get(getAllSlotsHandler)
+  .post(validate(CREATE_SLOT), createSlotHandler);
 slotRoute
   .route("/:slotId")
   .get(getSlotHandler)

@@ -1,6 +1,7 @@
 import { Slot } from "../models/slot-model.js";
 import ApiError from "../utils/apiError.js";
 import { extractQuery } from "../utils/extractQuery.js";
+import { Doctor } from "../models/doctor-model.js";
 
 export const getAllSlotsService = async (query) => {
   const { sort, limit, skip, filter } = extractQuery(query, (filter) => filter);
@@ -25,6 +26,10 @@ export const getSlotService = async (slotId) => {
 
 export const createSlotService = async (body) => {
   const { start_date, end_date, doctor } = body;
+
+  const existingDoctor = await Doctor.findById(doctor);
+
+  if (!existingDoctor) throw ApiError.notFound("Doctor is not available");
 
   const existingSlots = await Slot.find({
     doctor,
