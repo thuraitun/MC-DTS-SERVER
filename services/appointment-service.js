@@ -45,3 +45,4 @@ export const deleteAppointmentService = async (id) => {
   const appointment = await Appointment.deleteOne({ _id: id });
   return appointment;
 };
+

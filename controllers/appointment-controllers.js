@@ -34,19 +34,19 @@ export const createAppointmentHandler = catchAsync(async (req, res) => {
 });
 
 export const updateAppointmentHandler = catchAsync(async (req, res) => {
-  const appointment = await updateAppointmentService(
-    req.params.oppointmentId,
-    req.body
-  );
-  res.status(200).json({
-    status: "success",
-    data: appointment,
-  });
+	const appointment = await updateAppointmentService(
+		req.params.oppointmentId,
+		req.body,
+	);
+	res.status(200).json({
+		status: "success",
+		data: appointment,
+	});
 });
 
 export const deleteAppointmentHandler = catchAsync(async (req, res) => {
-  await deleteAppointmentService(req.params.oppointmentId);
-  res.status(200).json({
-    status: "success",
-  });
+	await deleteAppointmentService(req.params.oppointmentId);
+	res.status(200).json({
+		status: "success",
+	});
 });
