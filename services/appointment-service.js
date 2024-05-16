@@ -17,39 +17,63 @@ export const getAllAppointmentsService = async (query) => {
 	return appointments;
 };
 
-export const getOneAppointmentService = async (id) => {
-	const appointment = await Appointment.findById(id);
+export const getOneAppointmentService = async (appointmentId) => {
+	const appointment = await Appointment.findById(appointmentId);
 	if (!appointment) {
-		throw ApiError.notFound();
+		throw ApiError.notFound("Appointment is not found");
 	}
 	return appointment;
 };
 
 export const createAppointmentService = async (body) => {
 	const { doctor, slot } = body;
+
 	const isDoctorExisting = await Doctor.findById(doctor);
-	if (!isDoctorExisting) throw ApiError.notFound("Doctor not found");
+	if (!isDoctorExisting) throw ApiError.notFound("Doctor is not found");
 
 	const isSlotExisting = await Slot.findById(slot);
-	if (!isSlotExisting) throw ApiError.notFound("Slot not found");
+	if (!isSlotExisting) throw ApiError.notFound("Slot is not found");
 
 	const isValidSlot = await Appointment.findOne({ slot });
 	if (isValidSlot)
-		throw ApiError.notFound("This slot already have appointment!");
+		throw ApiError.notFound("This slot already have an appointment!");
 
 	const appointment = await Appointment.create(body);
 	return appointment;
 };
 
-export const updateAppointmentService = async (id, data) => {
-	if (!id) throw ApiError.notFound();
-	console.log("id: ", id, ", data: ", data);
-	const appointment = await Appointment.updateOne({ _id: id }, data);
-	return appointment;
+
+export const updateAppointmentService = async (appointmentId, body) => {
+	const { doctor, slot } = body;
+
+	const isDoctorExisting = await Doctor.findById(doctor);
+	if (!isDoctorExisting) throw ApiError.notFound("Doctor is not found");
+
+	const appointmentToUpdate = await Appointment.findById(appointmentId);
+	if (!appointmentToUpdate) throw ApiError.notFound("Appointment not found");
+
+	const existingAppointmentWithSlot = await Appointment.findOne({ slot });
+	if (
+		existingAppointmentWithSlot &&
+		existingAppointmentWithSlot._id.toString() !== appointmentId
+	) {
+		throw ApiError.notAuthorized(
+			"This slot is already assigned to another appointment.",
+		);
+	}
+
+	const updatedAppointment = await Appointment.findByIdAndUpdate(appointmentId, body, {
+	  new: true,
+	  runValidators: true,
+	});
+
+	if(!updatedAppointment) throw ApiError.notFound("Appointment cann't be updated");
+
+	return updatedAppointment;
 };
 
-export const deleteAppointmentService = async (id) => {
-	if (!id) throw ApiError.notFound();
-	const appointment = await Appointment.deleteOne({ _id: id });
-	return appointment;
+export const deleteAppointmentService = async (appointmentId) => {
+	const deletedAppointment = await Appointment.findByIdAndDelete(appointmentId);
+
+	return deletedAppointment;
 };
