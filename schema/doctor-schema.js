@@ -14,7 +14,7 @@ const BASE_USER = z.object({
     experiences: z
       .string()
       .min(1, "Experiences must have at least 1 characters.")
-      .max(4, "Experiences can only have 3 characters at most."),
+      .max(20, "Experiences can only have 3 characters at most."),
     fee: z
       .string()
       .min(1, "Fee must have at least 1 characters.")

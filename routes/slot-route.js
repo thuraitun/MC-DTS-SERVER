@@ -8,7 +8,7 @@ import {
   getSlotHandler,
   updateSlotHandler,
 } from "../controllers/slot-controller.js";
-import { CREATE_SLOT } from "../schema/slot-schema.js";
+import { CREATE_SLOT, UPDATE_SLOT } from "../schema/slot-schema.js";
 
 slotRoute
   .route("/")
@@ -17,7 +17,7 @@ slotRoute
 slotRoute
   .route("/:slotId")
   .get(getSlotHandler)
-  .patch(updateSlotHandler)
+  .patch(validate(UPDATE_SLOT),updateSlotHandler)
   .delete(deleteSlotHandler);
 
 export default slotRoute;

@@ -17,6 +17,8 @@ doctorRoute
 
 // doctorRoute.route('/:id/slots').get(getDoctorSlots)
       // http://localhost:800/api/doctors/doctorId/slots
+
+      
       
 
 export default doctorRoute;
