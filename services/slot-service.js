@@ -2,6 +2,7 @@ import { Slot } from "../models/slot-model.js";
 import ApiError from "../utils/apiError.js";
 import { extractQuery } from "../utils/extractQuery.js";
 import { Doctor } from "../models/doctor-model.js";
+import { Appointment } from "../models/appointment-model.js";
 
 export const getAllSlotsService = async (query) => {
 	const { sort, limit, skip, filter } = extractQuery(query, (filter) => filter);
@@ -70,6 +71,10 @@ export const updateSlotService = async (slotId, updateData) => {
 	if (filteredSlots.length > 0) {
 		throw ApiError.badRequest("Slot overlaps with existing slots");
 	}
+
+  const isAppointmentSlot = await Appointment.findOne({slot: slotId});
+
+  if(isAppointmentSlot) throw ApiError.notAuthorized("You can't be available this slot due to an appointment already being")
 
 	const updatedSlot = await Slot.findByIdAndUpdate(slotId, updateData, {
 		new: true,
