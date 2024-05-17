@@ -20,5 +20,8 @@
     "nodemon": "^3.1.0",
     "zob": "^1.0.1",
     "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "prettier": "3.2.5"
   }
 }

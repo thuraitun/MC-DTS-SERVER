@@ -1,50 +1,55 @@
 import catchAsync from "../utils/catchAsync.js";
 import {
-  getAllAppointmentService,
-  getOneAppointmentService,
-  createAppointmentService,
-  updateAppointmentService,
-  deleteAppointmentService,
+	getOneAppointmentService,
+	createAppointmentService,
+	updateAppointmentService,
+	deleteAppointmentService,
+	getAllAppointmentsService,
 } from "../services/appointment-service.js";
 
-export const getAllAppointment = catchAsync(async (req, res) => {
-  const appointments = await getAllAppointmentService();
-  res.status(200).json({
-    status: "success",
-    data: appointments,
-  });
+export const getAllAppointmentsHandler = catchAsync(async (req, res) => {
+	const getAllAppointments = await getAllAppointmentsService(req.query);
+	res.status(200).json({
+		status: "success",
+		data: getAllAppointments,
+	});
 });
 
-export const getOneAppointment = catchAsync(async (req, res) => {
-  const appointment = await getOneAppointmentService(req.params.oppointmentId);
-  res.status(200).json({
-    status: "success",
-    data: appointment,
-  });
+export const getAppointmentHandler = catchAsync(async (req, res) => {
+	const getAppointment = await getOneAppointmentService(
+		req.params.oppointmentId,
+	);
+	res.status(200).json({
+		status: "success",
+		data: getAppointment,
+	});
 });
 
-export const createAppointment = catchAsync(async (req, res) => {
-  const appointment = await createAppointmentService(req.body);
-  res.status(200).json({
-    status: "success",
-    data: appointment,
-  });
+export const createAppointmentHandler = catchAsync(async (req, res) => {
+	const createdAppointment = await createAppointmentService(req.body);
+	res.status(201).json({
+		status: "success",
+		data: createdAppointment,
+	});
 });
 
-export const updateAppointment = catchAsync(async (req, res) => {
-  const appointment = await updateAppointmentService(
-    req.params.oppointmentId,
-    req.body
-  );
-  res.status(200).json({
-    status: "success",
-    data: appointment,
-  });
+export const updateAppointmentHandler = catchAsync(async (req, res) => {
+	const appointment = await updateAppointmentService(
+		req.params.oppointmentId,
+		req.body,
+	);
+	res.status(200).json({
+		status: "success",
+		data: appointment,
+	});
 });
 
-export const deleteAppointment = catchAsync(async (req, res) => {
-  await deleteAppointmentService(req.params.oppointmentId);
-  res.status(200).json({
-    status: "success",
-  });
+export const deleteAppointmentHandler = catchAsync(async (req, res) => {
+	const deletedAppointment = await deleteAppointmentService(
+		req.params.oppointmentId,
+	);
+	res.status(200).json({
+		status: "success",
+		data: deletedAppointment,
+	});
 });

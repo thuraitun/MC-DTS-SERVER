@@ -25,8 +25,6 @@ export const getSlotHandler = catchAsync(async (req, res) => {
 });
 
 export const createSlotHandler = catchAsync(async (req, res) => {
-  // console.log("Doctor ID:", req.params);
-  // console.log("Request body:", req.body);
   const slot = await createSlotService(req.body);
   res.status(201).json({
     status: "success",
@@ -35,7 +33,6 @@ export const createSlotHandler = catchAsync(async (req, res) => {
 });
 
 export const updateSlotHandler = catchAsync(async (req, res) => {
-  console.log("Controller", req.params.slotId, req.body);
   const slot = await updateSlotService(req.params.slotId, req.body);
   res.status(200).json({
     status: "success",

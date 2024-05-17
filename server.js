@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 
 
 app.all('*', (req, res, next) => {
-  
+
   res.status(404).json({
     status: "Fail",
     message: "Not Found",
@@ -27,8 +27,6 @@ app.use((err, req, res, next) => {
     message: err.message
   })
 });
-
-
 
 async function connectToDatabase() {
   const DB = process.env.DATABASE.replace(

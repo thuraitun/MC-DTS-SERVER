@@ -14,7 +14,7 @@ export const getAllDoctorService = async (query) => {
 };
 
 export const getOneDoctorService = async (id) => {
-      const doctor = await Doctor.findById(id);
+      const doctor = await Doctor.findById(id).populate("slots");
       if (!doctor) {
             throw ApiError.notFound();
       }
@@ -35,6 +35,15 @@ export const updateDoctorService = async (id, data) => {
 
 export const deleteDoctorService = async (id) => {
       if (!id) throw ApiError.notFound();
-      const doctor = await Doctor.deleteOne({ _id: id });
+      const doctor = await Doctor.findByIdAndDelete({ _id: id });
       return doctor;
-}
+};
+
+export const getDoctorSlotsService = async (id) => {
+
+      const doctorSlots = await Doctor.findById(id).populate("slots");
+
+      if (!doctorSlots) throw ApiError.notFound("Doctor is not found");
+
+      return doctorSlots;
+};
