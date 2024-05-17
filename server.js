@@ -13,7 +13,7 @@ app.all('*', (req, res, next) => {
   
   res.status(404).json({
     status: "Fail",
-    message: "Not Found",
+    message: "The route is not supported",
   })
   next();
 });
