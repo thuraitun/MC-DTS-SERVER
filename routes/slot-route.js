@@ -2,22 +2,22 @@ import { Router } from "express";
 const slotRoute = Router();
 import validate from "../middlewares/validate.js";
 import {
-  createSlotHandler,
-  deleteSlotHandler,
-  getAllSlotsHandler,
-  getSlotHandler,
-  updateSlotHandler,
+	createSlotHandler,
+	deleteSlotHandler,
+	getAllSlotsHandler,
+	getSlotHandler,
+	updateSlotHandler,
 } from "../controllers/slot-controller.js";
-import { CREATE_SLOT } from "../schema/slot-schema.js";
+import { CREATE_SLOT, UPDATE_SLOT } from "../schema/slot-schema.js";
 
 slotRoute
-  .route("/")
-  .get(getAllSlotsHandler)
-  .post(validate(CREATE_SLOT), createSlotHandler);
+	.route("/")
+	.get(getAllSlotsHandler)
+	.post(validate(CREATE_SLOT), createSlotHandler);
 slotRoute
-  .route("/:slotId")
-  .get(getSlotHandler)
-  .patch(updateSlotHandler)
-  .delete(deleteSlotHandler);
+	.route("/:slotId")
+	.get(getSlotHandler)
+	.patch(updateSlotHandler)
+	.delete(deleteSlotHandler);
 
 export default slotRoute;

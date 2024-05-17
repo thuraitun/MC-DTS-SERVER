@@ -1,36 +1,45 @@
 import mongoose from "mongoose";
 
-const doctorSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
+const doctorSchema = new mongoose.Schema(
+	{
+		name: {
+			type: String,
+			required: true,
+		},
 
-    specialist: {
-        type: String,
-        required: true
-    },   
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    experiences: {
-        type: String,
-        required: true
-    },
-    fee: {
-        type: String,
-        required: true
-    },
-    gender: {
-        type: String,
-        required: true
-    },
-    slot: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Slot",
-    }
-})
+		specialist: {
+			type: String,
+			required: true,
+		},
+		email: {
+			type: String,
+			required: true,
+			unique: true,
+		},
+		experience: {
+			type: String,
+			required: true,
+		},
+		fee: {
+			type: String,
+			required: true,
+		},
+		gender: {
+			type: String,
+			required: true,
+		},
+	},
+	{
+		toJSON: { virtuals: true },
+		toObject: { virtuals: true },
+	},
+);
 
-export const Doctor = mongoose.model('Doctor', doctorSchema);
+// Virtual Populate
+doctorSchema.virtual("slots", {
+	ref: "Slot",
+	foreignField: "doctor",
+	localField: "_id",
+});
+
+export const Doctor = mongoose.model("Doctor", doctorSchema);

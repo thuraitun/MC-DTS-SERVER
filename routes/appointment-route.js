@@ -1,17 +1,22 @@
 import { Router } from "express";
 import {
-	createAppointment,
-	deleteAppointment,
-	getAllAppointment,
-	updateAppointment,
+  createAppointmentHandler,
+  deleteAppointmentHandler,
+  getAllAppointmentsHandler,
+  getAppointmentHandler,
+  updateAppointmentHandler,
 } from "../controllers/appointment-controllers.js";
 const appointmentRoute = Router();
 
-appointmentRoute.route("/").get(getAllAppointment).post(createAppointment);
+appointmentRoute
+  .route("/")
+  .get(getAllAppointmentsHandler)
+  .post(createAppointmentHandler);
 
 appointmentRoute
-	.route("/:oppointmentId")
-	.patch(updateAppointment)
-	.delete(deleteAppointment);
+  .route("/:oppointmentId")
+  .get(getAppointmentHandler)
+  .patch(updateAppointmentHandler)
+  .delete(deleteAppointmentHandler);
 
 export default appointmentRoute;
