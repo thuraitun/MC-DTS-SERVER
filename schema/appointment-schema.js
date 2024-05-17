@@ -1,6 +1,6 @@
 import z from "zod";
 
-const BASIC_SLOT = z.object({
+const BASIC_APPOINTMENT = z.object({
 	body: z.object({
 		doctor: z.string(),
 		username: z.string().min(3, "User name must be at least 3 characters long"),
