@@ -28,6 +28,9 @@ const doctorSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		bio: {
+			type: String,
+		},
 	},
 	{
 		toJSON: { virtuals: true },

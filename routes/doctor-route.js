@@ -10,15 +10,12 @@ doctorRoute
       .post(validate(CREATE_DOCTOR), createDoctor)
 
 doctorRoute
-      .route('/:id')
+      .route('/:doctorId')
       .get(getOneDoctor)
       .patch(validate(UPDATE_DOCTOR), updateDoctor)
       .delete(deleteDoctor)
 
-doctorRoute.route('/:id/slots').get(getDoctorSlotsHandler)
-      // http://localhost:800/api/doctors/doctorId/slots
-
-      
-      
+doctorRoute.route('/:doctorId/slots').get(getDoctorSlotsHandler)
+// http://localhost:800/api/doctors/doctorId/slots
 
 export default doctorRoute;

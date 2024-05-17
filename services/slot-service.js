@@ -72,9 +72,9 @@ export const updateSlotService = async (slotId, updateData) => {
 		throw ApiError.badRequest("Slot overlaps with existing slots");
 	}
 
-  const isAppointmentSlot = await Appointment.findOne({slot: slotId});
+	const isAppointmentSlot = await Appointment.findOne({ slot: slotId });
 
-  if(isAppointmentSlot) throw ApiError.notAuthorized("You can't be available this slot due to an appointment already being")
+	if (isAppointmentSlot) throw ApiError.notAuthorized("You can't be available this slot due to an appointment already being")
 
 	const updatedSlot = await Slot.findByIdAndUpdate(slotId, updateData, {
 		new: true,
