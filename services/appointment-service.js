@@ -74,6 +74,6 @@ export const updateAppointmentService = async (appointmentId, body) => {
 
 export const deleteAppointmentService = async (appointmentId) => {
 	const deletedAppointment = await Appointment.findByIdAndDelete(appointmentId);
-
+	if(!deletedAppointment) throw ApiError.notFound("Appointment is not found to delete");
 	return deletedAppointment;
 };
