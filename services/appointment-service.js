@@ -7,9 +7,10 @@ import { Slot } from "../models/slot-model.js";
 export const getAllAppointmentsService = async (query) => {
 	const { sort, limit, skip, filter } = extractQuery(query, (filter) => filter);
 
-	const appointments = await Promise.all([
-		Appointment.find(filter).sort(sort).skip(skip).limit(limit),
-	]);
+	const appointments = await Appointment.find(filter)
+		.sort(sort)
+		.skip(skip)
+		.limit(limit);
 
 	if (!Object.keys(appointments).length)
 		throw ApiError.notFound("Appointments are not available");
@@ -42,7 +43,6 @@ export const createAppointmentService = async (body) => {
 	return appointment;
 };
 
-
 export const updateAppointmentService = async (appointmentId, body) => {
 	const { doctor, slot } = body;
 
@@ -62,18 +62,24 @@ export const updateAppointmentService = async (appointmentId, body) => {
 		);
 	}
 
-	const updatedAppointment = await Appointment.findByIdAndUpdate(appointmentId, body, {
-	  new: true,
-	  runValidators: true,
-	});
+	const updatedAppointment = await Appointment.findByIdAndUpdate(
+		appointmentId,
+		body,
+		{
+			new: true,
+			runValidators: true,
+		},
+	);
 
-	if(!updatedAppointment) throw ApiError.notFound("Appointment cann't be updated");
+	if (!updatedAppointment)
+		throw ApiError.notFound("Appointment cann't be updated");
 
 	return updatedAppointment;
 };
 
 export const deleteAppointmentService = async (appointmentId) => {
 	const deletedAppointment = await Appointment.findByIdAndDelete(appointmentId);
-	if(!deletedAppointment) throw ApiError.notFound("Appointment is not found to delete");
+	if (!deletedAppointment)
+		throw ApiError.notFound("Appointment is not found to delete");
 	return deletedAppointment;
 };
