@@ -54,7 +54,7 @@ export const updateSlotService = async (slotId, updateData) => {
 	if (!slotId) throw ApiError.notFound();
 
 	const { start_date, end_date, doctor } = updateData;
-
+	console.log("updateData: ", updateData, slotId);
 	const existingSlots = await Slot.find({
 		doctor,
 		$or: [
