@@ -16,13 +16,13 @@ const doctorSchema = new mongoose.Schema(
 			required: true,
 			unique: true,
 		},
-		experience: {
+		experiences: {
 			type: String,
 			required: true,
 		},
 		fee: {
 			type: String,
-			required: true,
+			required: false,
 		},
 		gender: {
 			type: String,
@@ -30,6 +30,7 @@ const doctorSchema = new mongoose.Schema(
 		},
 		bio: {
 			type: String,
+			required: false,
 		},
 	},
 	{
