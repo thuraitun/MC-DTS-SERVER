@@ -54,7 +54,14 @@ export const updateSlotService = async (slotId, updateData) => {
 	if (!slotId) throw ApiError.notFound();
 
 	const { start_date, end_date, doctor } = updateData;
-	console.log("updateData: ", updateData, slotId);
+
+	const isAppointmentSlot = await Appointment.findOne({ slot: slotId });
+
+	if (isAppointmentSlot)
+		throw ApiError.notAuthorized(
+			"You can't update this slot due to an appointment already being",
+		);
+
 	const existingSlots = await Slot.find({
 		doctor,
 		$or: [
@@ -72,10 +79,6 @@ export const updateSlotService = async (slotId, updateData) => {
 		throw ApiError.badRequest("Slot overlaps with existing slots");
 	}
 
-	const isAppointmentSlot = await Appointment.findOne({ slot: slotId });
-
-	if (isAppointmentSlot) throw ApiError.notAuthorized("You can't be available this slot due to an appointment already being")
-
 	const updatedSlot = await Slot.findByIdAndUpdate(slotId, updateData, {
 		new: true,
 		runValidators: true,
@@ -87,7 +90,12 @@ export const updateSlotService = async (slotId, updateData) => {
 };
 
 export const deleteSlotService = async (slotId) => {
-	if (!slotId) throw ApiError.notFound();
+	const isAppointmentSlot = await Appointment.findOne({ slot: slotId });
+
+	if (isAppointmentSlot)
+		throw ApiError.notAuthorized(
+			"You can't delete this slot due to an appointment already being",
+		);
 
 	const deletedSlot = await Slot.findByIdAndDelete({ _id: slotId });
 

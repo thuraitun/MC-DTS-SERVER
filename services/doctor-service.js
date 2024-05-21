@@ -45,7 +45,8 @@ export const deleteDoctorService = async (id) => {
 };
 
 export const getDoctorSlotsService = async (id) => {
-	const doctorSlots = await Doctor.findById(id).populate("slots");
+	
+	const doctorSlots = await Doctor.findById(id);
 
 	if (!doctorSlots) throw ApiError.notFound("Doctor is not found");
 
