@@ -51,7 +51,8 @@ export const createSlotService = async (body) => {
 };
 
 export const updateSlotService = async (slotId, updateData) => {
-	if (!slotId) throw ApiError.notFound();
+	console.log("Req Data", updateData);
+	if (!slotId) throw ApiError.notFound("This slot is not available");
 
 	const { start_date, end_date, doctor } = updateData;
 
@@ -64,6 +65,7 @@ export const updateSlotService = async (slotId, updateData) => {
 
 	const existingSlots = await Slot.find({
 		doctor,
+		_id: { $ne: slotId },
 		$or: [
 			{ start_date: { $lte: start_date }, end_date: { $gte: start_date } },
 			{ start_date: { $lte: end_date }, end_date: { $gte: end_date } },
@@ -71,11 +73,14 @@ export const updateSlotService = async (slotId, updateData) => {
 		],
 	});
 
-	const filteredSlots = existingSlots.filter(
-		(slot) => String(slot._id) !== slotId,
-	);
 
-	if (filteredSlots.length > 0) {
+	console.log("Existing Slots",existingSlots);
+
+	// const filteredSlots = existingSlots.filter(
+	// 	(slot) => String(slot._id) !== slotId,
+	// );
+
+	if (existingSlots.length > 0) {
 		throw ApiError.badRequest("Slot overlaps with existing slots");
 	}
 

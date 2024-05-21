@@ -23,13 +23,13 @@ export const createDoctorService = async (body) => {
 	try {
 		const { email } = body;
 		const isEmail = await Doctor.findOne({ email });
-		if(isEmail) throw ApiError.badRequest("This email is already in use");
-		
-        const doctor = await Doctor.create(body);
-        return doctor;
-    } catch (error) {
-        throw ApiError.notFound(error);
-    }
+		if (isEmail) throw ApiError.badRequest("This email is already in use");
+
+		const doctor = await Doctor.create(body);
+		return doctor;
+	} catch (error) {
+		throw ApiError.notFound(error);
+	}
 };
 
 export const updateDoctorService = async (id, data) => {
@@ -46,8 +46,7 @@ export const deleteDoctorService = async (id) => {
 };
 
 export const getDoctorSlotsService = async (id) => {
-	
-	const doctorSlots = await Doctor.findById(id);
+	const doctorSlots = await Doctor.findById(id).populate("slots");
 
 	if (!doctorSlots) throw ApiError.notFound("Doctor is not found");
 
