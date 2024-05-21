@@ -20,8 +20,16 @@ export const getOneDoctorService = async (id) => {
 };
 
 export const createDoctorService = async (body) => {
-	const doctor = await Doctor.create(body);
-	return doctor;
+	try {
+		const { email } = body;
+		const isEmail = await Doctor.findOne({ email });
+		if(isEmail) throw ApiError.badRequest("This email is already in use");
+		
+        const doctor = await Doctor.create(body);
+        return doctor;
+    } catch (error) {
+        throw ApiError.notFound(error);
+    }
 };
 
 export const updateDoctorService = async (id, data) => {

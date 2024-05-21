@@ -22,7 +22,7 @@ const doctorSchema = new mongoose.Schema(
 		},
 		fee: {
 			type: String,
-			required: true,
+			required: false,
 		},
 		gender: {
 			type: String,
@@ -30,6 +30,7 @@ const doctorSchema = new mongoose.Schema(
 		},
 		bio: {
 			type: String,
+			required: false,
 		},
 	},
 	{
