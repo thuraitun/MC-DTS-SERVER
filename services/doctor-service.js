@@ -1,5 +1,6 @@
 import { Appointment } from "../models/appointment-model.js";
 import { Doctor } from "../models/doctor-model.js";
+import { Slot } from "../models/slot-model.js";
 import ApiError from "../utils/apiError.js";
 import { extractQuery } from "../utils/extractQuery.js";
 
@@ -41,6 +42,9 @@ export const updateDoctorService = async (id, data) => {
 
 export const deleteDoctorService = async (id) => {
 	if (!id) throw ApiError.notFound();
+	// const deleteSlot = await Slot.findByIdAndDelete({ doctor: id });
+	// console.log(deleteSlot);
+
 	const checkDoctor = await Appointment.findOne({ doctor: id });
 	if (checkDoctor) {
 		throw ApiError.notAuthenticated("Sorry! Can not delete! This doctor is appointmens!")

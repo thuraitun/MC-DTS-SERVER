@@ -17,7 +17,7 @@ export const getAllAppointmentsHandler = catchAsync(async (req, res) => {
 
 export const getAppointmentHandler = catchAsync(async (req, res) => {
 	const getAppointment = await getOneAppointmentService(
-		req.params.oppointmentId,
+		req.params.appointmentId,
 	);
 	res.status(200).json({
 		status: "success",
@@ -35,7 +35,7 @@ export const createAppointmentHandler = catchAsync(async (req, res) => {
 
 export const updateAppointmentHandler = catchAsync(async (req, res) => {
 	const appointment = await updateAppointmentService(
-		req.params.oppointmentId,
+		req.params.appointmentId,
 		req.body,
 	);
 	res.status(200).json({
@@ -46,7 +46,7 @@ export const updateAppointmentHandler = catchAsync(async (req, res) => {
 
 export const deleteAppointmentHandler = catchAsync(async (req, res) => {
 	const deletedAppointment = await deleteAppointmentService(
-		req.params.oppointmentId,
+		req.params.appointmentId,
 	);
 	res.status(200).json({
 		status: "success",
