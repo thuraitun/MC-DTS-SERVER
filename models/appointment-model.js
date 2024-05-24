@@ -24,6 +24,19 @@ const appointmentSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		email: {
+			type: String,
+			unique: true,
+			required: true
+		},
+		age: {
+			type: String,
+			required: true
+		},
+		gender: {
+			type: String,
+			required: true
+		}
 	},
 	{
 		toJSON: { virtuals: true },
@@ -34,7 +47,7 @@ const appointmentSchema = new mongoose.Schema(
 appointmentSchema.pre(/^find/, function (next) {
 	this.populate({
 		path: "doctor",
-		select:"name specialist email experiences gender bio",
+		select: "name specialist email experiences gender bio",
 	});
 
 	next();
@@ -43,9 +56,9 @@ appointmentSchema.pre(/^find/, function (next) {
 appointmentSchema.pre(/^find/, function (next) {
 	this.populate({
 		path: "slot",
-		select:"start_date end_date",
+		select: "start_date end_date",
 	});
-    
+
 	next();
 });
 

@@ -12,7 +12,7 @@ doctorRoute
 doctorRoute
       .route('/:doctorId')
       .get(getOneDoctor)
-      .patch(validate(UPDATE_DOCTOR), updateDoctor)
+      .patch(updateDoctor)
       .delete(deleteDoctor)
 
 doctorRoute.route('/:doctorId/slots').get(getDoctorSlotsHandler)

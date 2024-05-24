@@ -1,3 +1,4 @@
+import { Appointment } from "../models/appointment-model.js";
 import { Doctor } from "../models/doctor-model.js";
 import ApiError from "../utils/apiError.js";
 import { extractQuery } from "../utils/extractQuery.js";
@@ -34,14 +35,17 @@ export const createDoctorService = async (body) => {
 
 export const updateDoctorService = async (id, data) => {
 	if (!id) throw ApiError.notFound();
-	console.log("id: ", id, ", data: ", data);
-	const doctor = await Doctor.updateOne({ _id: id }, data);
+	const doctor = await Doctor.findByIdAndUpdate(id, data);
 	return doctor;
 };
 
 export const deleteDoctorService = async (id) => {
 	if (!id) throw ApiError.notFound();
-	const doctor = await Doctor.findByIdAndDelete({ _id: id });
+	const checkDoctor = await Appointment.findOne({ doctor: id });
+	if (checkDoctor) {
+		throw ApiError.notAuthenticated("Sorry! Can not delete! This doctor is appointmens!")
+	}
+	const doctor = await Doctor.findByIdAndDelete(id);
 	return doctor;
 };
 
