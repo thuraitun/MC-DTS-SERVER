@@ -14,7 +14,7 @@ appointmentRoute
   .post(createAppointmentHandler);
 
 appointmentRoute
-  .route("/:oppointmentId")
+  .route("/:appointmentId")
   .get(getAppointmentHandler)
   .patch(updateAppointmentHandler)
   .delete(deleteAppointmentHandler);
