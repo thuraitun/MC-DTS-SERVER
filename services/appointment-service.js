@@ -46,8 +46,8 @@ export const createAppointmentService = async (body) => {
 export const updateAppointmentService = async (appointmentId, body) => {
 	const { doctor, slot } = body;
 
-	const isDoctorExisting = await Doctor.findById(doctor);
-	if (!isDoctorExisting) throw ApiError.notFound("Doctor is not found");
+	// const isDoctorExisting = await Doctor.findById(doctor);
+	// if (!isDoctorExisting) throw ApiError.notFound("Doctor is not found");
 
 	const appointmentToUpdate = await Appointment.findById(appointmentId);
 	if (!appointmentToUpdate) throw ApiError.notFound("Appointment not found");
