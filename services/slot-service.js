@@ -59,7 +59,7 @@ export const createSlotService = async (body) => {
 };
 
 export const updateSlotService = async (slotId, updateData) => {
-	console.log("Req Data", updateData);
+	
 	if (!slotId) throw ApiError.notFound("This slot is not available");
 
 	const { start_date, end_date, doctor } = updateData;
@@ -88,8 +88,6 @@ export const updateSlotService = async (slotId, updateData) => {
 			{ start_date: { $gte: start_date }, end_date: { $lte: end_date } },
 		],
 	});
-
-	console.log("Existing Slots", existingSlots);
 
 	if (existingSlots.length > 0) {
 		throw ApiError.badRequest("Slot overlaps with existing slots");
