@@ -16,6 +16,5 @@ doctorRoute
       .delete(deleteDoctor)
 
 doctorRoute.route('/:doctorId/slots').get(getDoctorSlotsHandler)
-// http://localhost:800/api/doctors/doctorId/slots
 
 export default doctorRoute;

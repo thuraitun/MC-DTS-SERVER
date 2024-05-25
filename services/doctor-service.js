@@ -42,13 +42,13 @@ export const updateDoctorService = async (id, data) => {
 
 export const deleteDoctorService = async (id) => {
 	if (!id) throw ApiError.notFound();
-	// const deleteSlot = await Slot.findByIdAndDelete({ doctor: id });
-	// console.log(deleteSlot);
-
 	const checkDoctor = await Appointment.findOne({ doctor: id });
-	if (checkDoctor) {
-		throw ApiError.notAuthenticated("Sorry! Can not delete! This doctor is appointmens!")
-	}
+
+	if (checkDoctor) throw ApiError.notAuthenticated("Sorry! Can not delete! This doctor is appointmens!")
+
+	const isSlot = await Slot.find({ doctor: id });
+	if (isSlot.length > 0) await Slot.deleteMany({ doctor: id });
+
 	const doctor = await Doctor.findByIdAndDelete(id);
 	return doctor;
 };
