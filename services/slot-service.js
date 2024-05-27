@@ -28,13 +28,53 @@ export const getSlotService = async (slotId) => {
 export const createSlotService = async (body) => {
 	const { start_date, end_date, doctor } = body;
 
-	const isValidDate = () => {
-		const isValidStartDate = start_date > Date.now();
-		const isValidEndDate = end_date > start_date;
-
-		return { isValidStartDate, isValidEndDate };
+	const getTimeComponents = (dateTime) => {
+		const date = new Date(dateTime);
+		return {
+			getDate: date.getDate(),
+			hours: date.getHours(),
+			minutes: date.getMinutes(),
+		};
 	};
-	if (isValidDate) throw ApiError.notAuthorized("Slot Date is not available");
+
+	const isValidTime = () => {
+		const currentTime = new Date();
+		const currentDate = currentTime.getDate();
+		const currentHours = currentTime.getHours();
+		const currentMinutes = currentTime.getMinutes();
+
+		const reqDate = getTimeComponents(start_date);
+		const startTime = getTimeComponents(start_date);
+		const endTime = getTimeComponents(end_date);
+
+		console.log("reqDate", reqDate.getDate);
+		console.log("currentDate", currentDate);
+
+		if (reqDate.getDate === currentDate ) {
+			console.log("CurrentDate Validate");
+			const isStartTimeValid =
+				startTime.hours > currentHours ||
+				(startTime.hours === currentHours &&
+					startTime.minutes > currentMinutes);
+
+			const isEndTimeValid =
+				endTime.hours > startTime.hours ||
+				(endTime.hours === startTime.hours &&
+					endTime.minutes > startTime.minutes);
+
+			return isStartTimeValid && isEndTimeValid;
+
+		} 
+		else {
+			console.log("Future Date Validate");
+			return endTime.hours > startTime.hours || 
+			       (endTime.hours === startTime.hours && endTime.minutes > startTime.minutes);
+		}
+	};
+
+	if (!isValidTime()) {
+		throw ApiError.notAuthorized("Slot time is not available");
+	}
 
 	const existingDoctor = await Doctor.findById(doctor);
 
@@ -59,7 +99,6 @@ export const createSlotService = async (body) => {
 };
 
 export const updateSlotService = async (slotId, updateData) => {
-	
 	if (!slotId) throw ApiError.notFound("This slot is not available");
 
 	const { start_date, end_date, doctor } = updateData;
