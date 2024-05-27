@@ -3,6 +3,7 @@ import ApiError from "../utils/apiError.js";
 import { extractQuery } from "../utils/extractQuery.js";
 import { Doctor } from "../models/doctor-model.js";
 import { Appointment } from "../models/appointment-model.js";
+import { isValidTime } from "../utils/slotDateValidate.js";
 
 export const getAllSlotsService = async (query) => {
 	const { sort, limit, skip, filter } = extractQuery(query, (filter) => filter);
@@ -28,51 +29,7 @@ export const getSlotService = async (slotId) => {
 export const createSlotService = async (body) => {
 	const { start_date, end_date, doctor } = body;
 
-	const getTimeComponents = (dateTime) => {
-		const date = new Date(dateTime);
-		return {
-			getDate: date.getDate(),
-			hours: date.getHours(),
-			minutes: date.getMinutes(),
-		};
-	};
-
-	const isValidTime = () => {
-		const currentTime = new Date();
-		const currentDate = currentTime.getDate();
-		const currentHours = currentTime.getHours();
-		const currentMinutes = currentTime.getMinutes();
-
-		const reqDate = getTimeComponents(start_date);
-		const startTime = getTimeComponents(start_date);
-		const endTime = getTimeComponents(end_date);
-
-		console.log("reqDate", reqDate.getDate);
-		console.log("currentDate", currentDate);
-
-		if (reqDate.getDate === currentDate ) {
-			console.log("CurrentDate Validate");
-			const isStartTimeValid =
-				startTime.hours > currentHours ||
-				(startTime.hours === currentHours &&
-					startTime.minutes > currentMinutes);
-
-			const isEndTimeValid =
-				endTime.hours > startTime.hours ||
-				(endTime.hours === startTime.hours &&
-					endTime.minutes > startTime.minutes);
-
-			return isStartTimeValid && isEndTimeValid;
-
-		} 
-		else {
-			console.log("Future Date Validate");
-			return endTime.hours > startTime.hours || 
-			       (endTime.hours === startTime.hours && endTime.minutes > startTime.minutes);
-		}
-	};
-
-	if (!isValidTime()) {
+	if (!isValidTime(start_date, end_date)) {
 		throw ApiError.notAuthorized("Slot time is not available");
 	}
 
@@ -102,6 +59,10 @@ export const updateSlotService = async (slotId, updateData) => {
 	if (!slotId) throw ApiError.notFound("This slot is not available");
 
 	const { start_date, end_date, doctor } = updateData;
+	
+	if (!isValidTime(start_date, end_date)) {
+		throw ApiError.notAuthorized("Slot time is not available");
+	}
 
 	const isAppointmentSlot = await Appointment.findOne({ slot: slotId });
 
