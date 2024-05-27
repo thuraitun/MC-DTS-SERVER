@@ -69,14 +69,6 @@ export const updateSlotService = async (slotId, updateData) => {
 			"You can't update this slot due to an appointment already being",
 		);
 
-	const isValidDate = () => {
-		const isValidStartDate = start_date > Date.now();
-		const isValidEndDate = end_date > start_date;
-
-		return { isValidStartDate, isValidEndDate };
-	};
-	if (isValidDate) throw ApiError.notAuthorized("Slot Date is not available");
-
 	const existingSlots = await Slot.find({
 		doctor,
 		_id: { $ne: slotId },
