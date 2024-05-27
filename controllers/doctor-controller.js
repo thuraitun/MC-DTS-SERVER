@@ -23,6 +23,7 @@ export const getOneDoctor = catchAsync(async (req, res) => {
 	});
 });
 export const createDoctor = catchAsync(async (req, res) => {
+	console.log(req.body);
 	const doctor = await createDoctorService(req.body);
 	res.status(200).json({
 		status: "success",
