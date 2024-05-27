@@ -8,9 +8,7 @@ import { isValidTime } from "../utils/slotDateValidate.js";
 export const getAllSlotsService = async (query) => {
 	const { sort, limit, skip, filter } = extractQuery(query, (filter) => filter);
 
-	const slots = await Promise.all([
-		Slot.find(filter).sort(sort).skip(skip).limit(limit),
-	]);
+	const slots = await Slot.find(filter).sort(sort).skip(skip).limit(limit);
 
 	if (!Object.keys(slots).length)
 		throw ApiError.notFound("Slots are not available");
@@ -59,7 +57,7 @@ export const updateSlotService = async (slotId, updateData) => {
 	if (!slotId) throw ApiError.notFound("This slot is not available");
 
 	const { start_date, end_date, doctor } = updateData;
-	
+
 	if (!isValidTime(start_date, end_date)) {
 		throw ApiError.notAuthorized("Slot time is not available");
 	}
