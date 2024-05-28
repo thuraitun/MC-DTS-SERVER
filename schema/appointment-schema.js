@@ -8,6 +8,12 @@ const BASIC_APPOINTMENT = z.object({
 			.string()
 			.min(6, "Phone number must be at least 6 characters long")
 			.max(12, "Phone number less than 12 characters long"),
+		email: z.string().email(),
+		age: z
+			.string()
+			.min(1, " Age must be at least 1 year old")
+			.max(2, " Age must be less than 100 years old"),
+		gender: z.string(),
 		slot: z.string(),
 		description: z
 			.string()
