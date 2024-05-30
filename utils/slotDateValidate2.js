@@ -7,7 +7,11 @@ const getTimeComponents = (dateTime) => {
     };
 };
 
-export const isValidTime = (start_date, end_date) => {
+const isValidTime = (start_date, end_date) => {
+
+    console.log("StartDate",start_date);
+    console.log("EndDate",end_date);
+    
     // get current date
     const currentTime = new Date();
     const currentDate = currentTime.getDate();
@@ -31,10 +35,11 @@ export const isValidTime = (start_date, end_date) => {
                 endTime.minutes > startTime.minutes);
 
         return isStartTimeValid && isEndTimeValid;
-
     } 
-    else {
-        return endTime.hours > startTime.hours || 
-               (endTime.hours === startTime.hours && endTime.minutes > startTime.minutes);
-    }
+
+    if (endTime.hours > startTime.hours) return true
+
+    return endTime.hours === startTime.hours && endTime.minutes > startTime.minutes;
 };
+
+module.exports = isValidTime
