@@ -10,9 +10,6 @@ export const getAllSlotsService = async (query) => {
 
 	const slots = await Slot.find(filter).sort(sort).skip(skip).limit(limit);
 
-	if (!Object.keys(slots).length)
-		throw ApiError.notFound("Slots are not available");
-
 	return slots;
 };
 

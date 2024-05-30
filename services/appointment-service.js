@@ -12,9 +12,6 @@ export const getAllAppointmentsService = async (query) => {
 		.skip(skip)
 		.limit(limit);
 
-	if (!Object.keys(appointments).length)
-		throw ApiError.notFound("Appointments are not available");
-
 	return appointments;
 };
 

@@ -7,9 +7,7 @@ import { extractQuery } from "../utils/extractQuery.js";
 export const getAllDoctorService = async (query) => {
 	const { limit, sort, skip, filter } = extractQuery(query, (filter) => filter);
 	const doctors = await Doctor.find(filter).sort(sort).skip(skip).limit(limit);
-	if (!doctors) {
-		throw ApiError.notFound();
-	}
+	
 	return doctors;
 };
 
